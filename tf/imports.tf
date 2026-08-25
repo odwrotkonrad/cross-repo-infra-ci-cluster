@@ -97,22 +97,22 @@ import {
 
 import {
   to = google_project_iam_member.node["roles/logging.logWriter"]
-  id = "staging-499418/roles/logging.logWriter/serviceAccount:gke-node@staging-499418.iam.gserviceaccount.com"
+  id = "staging-499418 roles/logging.logWriter serviceAccount:gke-node@staging-499418.iam.gserviceaccount.com"
 }
 
 import {
   to = google_project_iam_member.node["roles/monitoring.metricWriter"]
-  id = "staging-499418/roles/monitoring.metricWriter/serviceAccount:gke-node@staging-499418.iam.gserviceaccount.com"
+  id = "staging-499418 roles/monitoring.metricWriter serviceAccount:gke-node@staging-499418.iam.gserviceaccount.com"
 }
 
 import {
   to = google_project_iam_member.node["roles/monitoring.viewer"]
-  id = "staging-499418/roles/monitoring.viewer/serviceAccount:gke-node@staging-499418.iam.gserviceaccount.com"
+  id = "staging-499418 roles/monitoring.viewer serviceAccount:gke-node@staging-499418.iam.gserviceaccount.com"
 }
 
 import {
   to = google_project_iam_member.node["roles/stackdriver.resourceMetadata.writer"]
-  id = "staging-499418/roles/stackdriver.resourceMetadata.writer/serviceAccount:gke-node@staging-499418.iam.gserviceaccount.com"
+  id = "staging-499418 roles/stackdriver.resourceMetadata.writer serviceAccount:gke-node@staging-499418.iam.gserviceaccount.com"
 }
 
 import {
@@ -162,7 +162,7 @@ import {
 
 import {
   to = helm_release.runner
-  id = "gitlab-runner"
+  id = "ci-gitlab-runners/gitlab-runner"
 }
 
 import {
