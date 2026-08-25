@@ -1,0 +1,89 @@
+##[>] 🤖🤖
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+stages:
+  - validate
+  - apply
+
+default:
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - api_failure
+      - stuck_or_timeout_failure
+      - scheduler_failure
+      - unknown_failure
+  tags:
+    - gke-linux-amd64-small
+
+variables:
+  ARTIFACT_REGISTRY: $GRP_KO_VAR_ARTIFACT_REGISTRY
+  OCI_IMAGES_CI_LINUX_REF: $GRP_KO_VAR_OCI_IMAGES_CI_LINUX_REF
+  CI_IMAGE: $ARTIFACT_REGISTRY/ci-linux:$OCI_IMAGES_CI_LINUX_REF
+  TF_VAR_gitlab_token: $GRP_KO_UNPROTECTED_VAR_BOT_GITLAB_TOKEN
+
+#[why] no credential setup anywhere in this file: the job pod runs as the ci-job kubernetes service
+#   account, which cross-repo/infra/base binds to tf-ci-cluster with workloadIdentityUser. Terraform
+#   picks that up as application default credentials from the metadata server, so no key is written,
+#   decoded or held in a variable
+.tf:
+  image: $CI_IMAGE
+  interruptible: false
+  resource_group: terraform
+  before_script:
+    - make init
+
+validate:
+  extends: .tf
+  stage: validate
+  needs: []
+  rules:
+    - changes:
+        - tf/**/*
+        - Makefile
+        - .gitlab-ci.yml
+  script:
+    - terraform -chdir=tf fmt -check -recursive
+    - terraform -chdir=tf init -input=false -backend=false
+    - terraform -chdir=tf validate
+
+#[why] a plan on the branch, never on main: what is reviewed is the plan the merge applies
+plan:
+  extends: .tf
+  stage: validate
+  needs: []
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - tf/**/*
+        - Makefile
+        - .gitlab-ci.yml
+  script:
+    - make plan
+    - terraform -chdir=tf show -json plan.tfplan > tf/plan.json
+    #[why] the plan fails the job when it contains a delete, rather than reporting one: this root
+    #   owns the cluster all CI runs on, so a delete is surfaced before a human reads the plan
+    - ruby ci/plan-no-deletes.rb tf/plan.json
+  artifacts:
+    paths:
+      - tf/plan.tfplan
+      - tf/plan.json
+    expire_in: 1 week
+
+apply:
+  extends: .tf
+  stage: apply
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - tf/**/*
+        - Makefile
+        - .gitlab-ci.yml
+  script:
+    - make plan
+    - make apply
+##[<] 🤖🤖

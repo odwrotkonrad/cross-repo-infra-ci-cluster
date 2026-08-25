@@ -1,0 +1,6 @@
+##[>] 🤖
+/.env
+**/.terraform/
+*.tfplan
+!**/.terraform.lock.hcl
+##[<] 🤖
