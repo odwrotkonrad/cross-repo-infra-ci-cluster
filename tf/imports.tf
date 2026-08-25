@@ -137,17 +137,17 @@ import {
 
 import {
   to = google_service_account_iam_member.ci_job_workload_identity
-  id = "projects/staging-499418/serviceAccounts/ci-job@staging-499418.iam.gserviceaccount.com/roles/iam.workloadIdentityUser/serviceAccount:staging-499418.svc.id.goog[ci-gitlab-runners/ci-job]"
+  id = "projects/staging-499418/serviceAccounts/ci-job@staging-499418.iam.gserviceaccount.com roles/iam.workloadIdentityUser serviceAccount:staging-499418.svc.id.goog[ci-gitlab-runners/ci-job]"
 }
 
 import {
   to = google_service_account_iam_member.runner_sign
-  id = "projects/staging-499418/serviceAccounts/gitlab-runner@staging-499418.iam.gserviceaccount.com/roles/iam.serviceAccountTokenCreator/serviceAccount:gitlab-runner@staging-499418.iam.gserviceaccount.com"
+  id = "projects/staging-499418/serviceAccounts/gitlab-runner@staging-499418.iam.gserviceaccount.com roles/iam.serviceAccountTokenCreator serviceAccount:gitlab-runner@staging-499418.iam.gserviceaccount.com"
 }
 
 import {
   to = google_service_account_iam_member.runner_workload_identity
-  id = "projects/staging-499418/serviceAccounts/gitlab-runner@staging-499418.iam.gserviceaccount.com/roles/iam.workloadIdentityUser/serviceAccount:staging-499418.svc.id.goog[ci-gitlab-runners/gitlab-runner]"
+  id = "projects/staging-499418/serviceAccounts/gitlab-runner@staging-499418.iam.gserviceaccount.com roles/iam.workloadIdentityUser serviceAccount:staging-499418.svc.id.goog[ci-gitlab-runners/gitlab-runner]"
 }
 
 import {
