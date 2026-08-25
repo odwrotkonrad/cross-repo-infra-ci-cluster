@@ -157,7 +157,7 @@ import {
 
 import {
   to = google_storage_bucket_iam_member.runner_cache
-  id = "b/staging-499418-runner-cache/roles/storage.objectAdmin/serviceAccount:gitlab-runner@staging-499418.iam.gserviceaccount.com"
+  id = "b/staging-499418-runner-cache roles/storage.objectAdmin serviceAccount:gitlab-runner@staging-499418.iam.gserviceaccount.com"
 }
 
 import {
