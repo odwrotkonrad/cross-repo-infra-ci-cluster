@@ -24,7 +24,10 @@ variables:
   ARTIFACT_REGISTRY: $GRP_KO_VAR_ARTIFACT_REGISTRY
   OCI_IMAGES_CI_LINUX_REF: $GRP_KO_VAR_OCI_IMAGES_CI_LINUX_REF
   CI_IMAGE: $ARTIFACT_REGISTRY/ci-linux:$OCI_IMAGES_CI_LINUX_REF
-  TF_VAR_gitlab_token: $GRP_KO_UNPROTECTED_VAR_BOT_GITLAB_TOKEN
+  #[why] this repo's own group token, not the shared GRP_KO_UNPROTECTED_VAR_BOT_GITLAB_TOKEN: that
+  #   one is the reporter remote-sources token and answers 403 on a group runner, which this root
+  #   manages. Minted by cross-repo/infra/base at maintainer, scoped to this project alone
+  TF_VAR_gitlab_token: $REPO_UNPROTECTED_VAR_BOT_CI_CLUSTER_TOKEN
 
 #[why] no credential setup anywhere in this file: the job pod runs as the ci-job kubernetes service
 #   account, which cross-repo/infra/base binds to tf-ci-cluster with workloadIdentityUser. Terraform

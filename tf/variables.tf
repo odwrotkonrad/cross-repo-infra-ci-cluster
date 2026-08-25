@@ -164,4 +164,11 @@ variable "gitlab_token" {
   type      = string
   sensitive = true
 }
+
+#[why] the identity terraform impersonates, created by cross-repo/infra/base and holding the
+#   baseCiClusterApplier custom role. Named as a value: base owns it, this root only becomes it
+variable "applier_service_account" {
+  type    = string
+  default = "tf-ci-cluster@main-493613.iam.gserviceaccount.com"
+}
 ##[<] 🤖🤖
