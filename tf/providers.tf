@@ -1,7 +1,14 @@
 ##[>] 🤖🤖
+#[why] impersonate the applier rather than act as the caller. In CI the caller is the ci-job pod
+#   identity, which holds nothing on the ci project by design; the applier holds the
+#   baseCiClusterApplier custom role. Locally it makes an admin run use the same identity CI does,
+#   so a plan means the same thing in both places
+#[why] no key anywhere: base binds ci-job as workloadIdentityUser on the applier, so becoming it is
+#   a token exchange rather than a credential this repo holds
 provider "google" {
-  project = var.ci_project_id
-  region  = var.region
+  project                     = var.ci_project_id
+  region                      = var.region
+  impersonate_service_account = var.applier_service_account
 }
 
 provider "gitlab" {
